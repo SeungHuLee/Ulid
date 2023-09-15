@@ -33,7 +33,7 @@ namespace System // wa-o, System Namespace!?
 , ISpanParsable<Ulid>
 #endif
 #if NET8_0_OR_GREATER
-, IUtf8SpanFormattable
+, IUtf8SpanFormattable, IUtf8SpanParsable<Ulid>
 #endif
        
     {
@@ -544,6 +544,15 @@ namespace System // wa-o, System Namespace!?
             return false;
         }
 
+        //
+        // IUtf8SpanParsable
+        //
+        /// <inheritdoc cref="IUtf8SpanParsable{TSelf}.Parse(ReadOnlySpan{byte}, IFormatProvider?)" />
+        public static Ulid Parse(ReadOnlySpan<byte> utf8Text, IFormatProvider provider) => Parse(utf8Text);
+
+        /// <inheritdoc cref="IUtf8SpanParsable{TSelf}.TryParse(ReadOnlySpan{byte}, IFormatProvider?, out TSelf)" />
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider provider, [MaybeNullWhen(false)] out Ulid result) => TryParse(utf8Text, out result);
+
         // Comparable/Equatable
 
         public override int GetHashCode()
@@ -704,6 +713,7 @@ namespace System // wa-o, System Namespace!?
             }
             throw new NotImplementedException();
         }
+
 #endif
-            }
+    }
 }
